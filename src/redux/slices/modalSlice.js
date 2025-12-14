@@ -8,15 +8,14 @@ const modalSlice = createSlice({
     config: {},
     modalData: null,
   },
-
   reducers: {
     openModal: (state, action) => {
       state.isOpen = true;
       state.type = action.payload?.type || "";
-      state.modalData = action.payload?.modalData || null; // ✅ match key
+      // Ensure the payload key matches this:
+      state.modalData = action.payload?.modalData || null;
       state.config = action.payload?.config || {};
     },
-
     closeModal: (state) => {
       state.isOpen = false;
       state.type = "";

@@ -50,3 +50,42 @@ export const createCategory = (data) => apiClient.post("/admin/category", data);
 
 // Example: Create Content
 export const createContent = (data) => apiClient.post("/admin/content", data);
+
+// ---------------------------
+// Admin Course Routes
+// ---------------------------
+
+// 1. Get All Courses
+export const getAllCourses = () => apiClient.get("/admin/courses");
+
+// 2. Get Single Course by ID
+export const getCourseById = (id) => apiClient.get(`/admin/courses/${id}`);
+
+// 3. Create Course (All-in-One)
+// Note: 'data' must be a FormData object because of file uploads
+export const createCourse = (formData) =>
+  apiClient.post("/admin/courses/all-in-one", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+// 4. Update Course (All-in-One)
+export const updateCourse = (id, formData) =>
+  apiClient.put(`/admin/courses/${id}/all-in-one`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+// 5. Delete Course
+export const deleteCourse = (id) => apiClient.delete(`/admin/courses/${id}`);
+
+// --- Helper for Dropdowns (Categories, Languages, Validities) ---
+// You likely need endpoints to fetch these to populate dropdowns in the editor
+export const getAllLanguages = () => apiClient.get("/admin/languages");
+export const getAllValidities = () => apiClient.get("/admin/validities");
+export const getAllCategoriesAdmin = () => apiClient.get("/admin/categories");
+
+// Login (Matches authController.loginAdmin)
+export const adminLoginAPI = (credentials) =>
+  apiClient.post("/admin/login", credentials);
+
+// (Optional) Get Profile
+export const getAdminProfileAPI = () => apiClient.get("/admin/me");

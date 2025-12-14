@@ -1,0 +1,57 @@
+.container {
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.subtitle {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+.errorBanner {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.inputGroup {
+  text-align: left;
+}
+.inputGroup label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.inputGroup input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+.submitBtn {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submitBtn:hover {
+  background-color: #1d4ed8;
+}
+.submitBtn:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}

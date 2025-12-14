@@ -1,99 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { AiOutlinePlus, AiOutlineArrowLeft } from "react-icons/ai";
+// Import API functions
+import {
+  getAllCourses,
+  createCourse,
+  updateCourse,
+} from "../../../api/apiRoutes";
 
 // Components
 import CategoryColumn from "../../../components/AdminComponents/CategoryColumn/CategoryColumn";
-// Ensure you have created the AdminEditor folder and file as per previous step
 import AdminEditor from "../../../components/AdminComponents/AdminEditor/AdminEditor";
 import styles from "./AdminOnlineCoursesPage.module.css";
 
-const AdminOnlineCoursesPage = ({ categories }) => {
+const AdminOnlineCoursesPage = () => {
   const dispatch = useDispatch();
 
-  // --- View State Management ---
-  // 'list' = show columns, 'add' = show blank editor, 'edit' = show filled editor
   const [viewMode, setViewMode] = useState("list");
   const [editingData, setEditingData] = useState(null);
 
-  // --- Demo Data (Preserving your original structure) ---
-  const demoCategories = [
-    {
-      id: "cat-left",
-      name: "",
-      subcategories: [],
-      special: "leftOnly", // Keeps the "Add Sub Category" link column
-    },
-    {
-      id: "cat-upsc",
-      name: "UPSC",
-      subcategories: [
-        { id: "upsc-1", name: "Group 1" },
-        { id: "upsc-2", name: "Group 2" },
-        { id: "upsc-3", name: "Group 3" },
-        { id: "upsc-4", name: "Group 4" },
-      ],
-    },
-    {
-      id: "cat-appsc",
-      name: "APPSC",
-      subcategories: [
-        { id: "appsc-1", name: "Group 1" },
-        { id: "appsc-2", name: "Group 2" },
-        { id: "appsc-3", name: "Group 3" },
-        { id: "appsc-4", name: "Group 4" },
-      ],
-    },
-    {
-      id: "cat-tspsc",
-      name: "TSPSC",
-      subcategories: [
-        { id: "tspsc-1", name: "Group 1" },
-        { id: "tspsc-2", name: "Group 2" },
-        { id: "tspsc-3", name: "Group 3" },
-        { id: "tspsc-4", name: "Group 4" },
-      ],
-    },
-    {
-      id: "cat-police",
-      name: "Police",
-      subcategories: [
-        { id: "pol-1", name: "AP SI" },
-        { id: "pol-2", name: "AP Constable" },
-      ],
-    },
-    {
-      id: "cat-ssc",
-      name: "SSC",
-      subcategories: [
-        { id: "ssc-1", name: "CGL" },
-        { id: "ssc-2", name: "CHSL" },
-      ],
-    },
-  ];
+  // Real Data State
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const list =
-    Array.isArray(categories) && categories.length
-      ? categories
-      : demoCategories;
+  // --- 1. Fetch Data on Mount ---
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      const res = await getAllCourses(); // Call API
+      // Backend returns { success: true, data: [...] } or just arrays?
+      // Adjust based on your backend response structure
+      setCourses(res.data?.data || res.data || []);
+    } catch (err) {
+      console.error("Failed to fetch courses", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // --- Handlers ---
 
   const handleAddNew = () => {
-    setEditingData(null); // Clear data for new entry
+    setEditingData(null);
     setViewMode("add");
   };
 
   const handleEditItem = (item) => {
-    // Map your existing item data to the AdminEditor fields
-    // This example assumes 'item' has a name property
-    setEditingData({
-      ...item,
-      title: item.name,
-      // You can pre-fill other fields here if your data has them:
-      // price: item.price,
-      // discount: item.discount,
-    });
+    setEditingData(item);
     setViewMode("edit");
   };
 
@@ -102,38 +58,37 @@ const AdminOnlineCoursesPage = ({ categories }) => {
     setEditingData(null);
   };
 
-  const handleSaveContent = (data) => {
-    console.log("Saving Content:", data);
-    // TODO: Dispatch your Redux action here (e.g., CREATE_COURSE or UPDATE_COURSE)
-    handleBackToList();
+  const handleSaveContent = async (formData) => {
+    try {
+      setLoading(true);
+      if (viewMode === "add") {
+        await createCourse(formData);
+        alert("Course Created Successfully!");
+      } else if (viewMode === "edit" && editingData?._id) {
+        await updateCourse(editingData._id, formData);
+        alert("Course Updated Successfully!");
+      }
+      // Refresh list and go back
+      fetchCourses();
+      handleBackToList();
+    } catch (error) {
+      console.error("Error saving course:", error);
+      alert("Failed to save course. Check console.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // --- RENDER ---
 
-  // 1. Editor View (Used for both Add and Edit)
+  if (loading) return <div className={styles.loader}>Loading...</div>;
+
   if (viewMode === "add" || viewMode === "edit") {
     return (
       <div className={styles.pageWrap}>
-        {/* Back Button */}
-        <button
-          onClick={handleBackToList}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            marginBottom: "1rem",
-            border: "none",
-            background: "none",
-            cursor: "pointer",
-            color: "#6b7280",
-            fontSize: "1rem",
-            fontWeight: "500",
-          }}
-        >
-          Back to Categories
+        <button onClick={handleBackToList} className={styles.backBtn}>
+          ← Back to Courses
         </button>
-
-        {/* The Enriched Admin Editor */}
         <AdminEditor
           title={viewMode === "add" ? "Add New Course" : "Edit Course Details"}
           initialData={editingData}
@@ -144,53 +99,49 @@ const AdminOnlineCoursesPage = ({ categories }) => {
     );
   }
 
-  // 2. List View (Default Category Columns)
   return (
     <div className={styles.pageWrap}>
-      <div className={styles.box}>
-        <div className={styles.gridWrap}>
-          {list.map((cat) => (
-            <div key={cat.id} className={styles.columnSlot}>
-              {/* Special left column rendering */}
-              {cat.special === "leftOnly" ? (
-                <div className={styles.leftOnly}>
-                  <button
-                    className={styles.leftAdd}
-                    onClick={() =>
-                      dispatch({ type: "ADD_SUB_SPECIAL", payload: cat })
-                    }
-                  >
-                    + Add Sub Category
-                  </button>
-                </div>
-              ) : (
-                <CategoryColumn
-                  category={cat}
-                  // Clicking the item name opens the modal as before
-                  onOpen={(it) => dispatch({ type: "OPEN_MODAL", payload: it })}
-                  // Plus button adds sub category
-                  onAddSub={(c) =>
-                    dispatch({ type: "SHOW_ADD_SUB", payload: c })
-                  }
-                  // EDIT BUTTON: Now opens the new AdminEditor
-                  onEdit={(it) => handleEditItem(it)}
-                  // DELETE BUTTON: Keep existing delete logic
-                  onDelete={(it) =>
-                    dispatch({ type: "DELETE_ITEM", payload: it })
-                  }
-                />
-              )}
-            </div>
-          ))}
-        </div>
+      <div className={styles.headerRow}>
+        <h1>Online Courses Management</h1>
+        <button className={styles.addBtnMain} onClick={handleAddNew}>
+          + Add New Course
+        </button>
+      </div>
 
-        {/* Footer Row to Add New Top-Level Category or Course */}
-        <div className={styles.footerRow}>
-          <button className={styles.addCategoryBtn} onClick={handleAddNew}>
-            {/* <AiOutlinePlus className={styles.plusIcon} /> */}
-            Add New Course / Category
-          </button>
-        </div>
+      <div className={styles.gridContainer}>
+        {/* Render Courses as Cards or List here */}
+        {courses.length === 0 ? (
+          <p>No courses found. Add one!</p>
+        ) : (
+          /* Note: You originally had 'CategoryColumn' logic. 
+              Since the API returns a flat list of courses, you might want 
+              to map them to your AdminCourseCard directly, 
+              or group them by category if you prefer the column view.
+           */
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+            {courses.map((course) => (
+              <div
+                key={course._id}
+                className={styles.courseCardStub} // Add CSS for this
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  width: "250px",
+                }}
+              >
+                <img
+                  src={course.thumbnailUrl}
+                  alt={course.name}
+                  style={{ width: "100%", height: "140px", objectFit: "cover" }}
+                />
+                <h3>{course.name}</h3>
+                <p>Price: ₹{course.originalPrice}</p>
+                <button onClick={() => handleEditItem(course)}>Edit</button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

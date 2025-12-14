@@ -13,7 +13,7 @@ const getToken = () => {
 // Create the axios client
 const apiClient = axios.create({
   // Use your backend's base URL
-  baseURL: "http://192.168.1.7:4000/api", // <-- Change this if your backend is elsewhere
+  baseURL: "http://localhost:5000/api", // <-- Change this if your backend is elsewhere
   headers: {
     "Content-Type": "application/json",
   },

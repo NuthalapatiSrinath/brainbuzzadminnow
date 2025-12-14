@@ -1,15 +1,15 @@
-// src/pages/TopBar/TopBar.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice";
-import { logout } from "../../redux/slices/authSlice";
-// import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
+// --- FIX 1: Import 'logoutAdmin' instead of 'logout' ---
+import { logoutAdmin } from "../../redux/slices/authSlice";
+
 import Dropdown from "../../components/Dropdown/Dropdown";
 import TopbarPanel from "./TopbarPanel";
 import ProfileDropdownPanel from "./ProfileDropdownPanel";
 import styles from "./Topbar.module.css";
 
-/* (TOP_NAV, LOGIN_BTN, BOTTOM_NAV, normalizeHref functions are all unchanged) */
+/* (TOP_NAV, LOGIN_BTN, BOTTOM_NAV, normalizeHref functions remain unchanged) */
 const TOP_NAV = [
   { key: "adminhome", label: "Admin Home", href: "/admin/content" },
   { key: "home", label: "Home", href: "/" },
@@ -61,6 +61,7 @@ const BOTTOM_NAV = [
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];
+
 function normalizeHref(href) {
   if (!href) return "#";
   if (
@@ -72,13 +73,14 @@ function normalizeHref(href) {
   return href.startsWith("/") ? href : `/${href}`;
 }
 
-// --- NO NEED FOR UserIcon component here anymore ---
-
 export default function Topbar() {
   const dispatch = useDispatch();
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  // const [language, setLanguage] = useState("English");
+  // --- FIX 2: Retrieve 'admin' from store, alias it to 'user' for compatibility ---
+  // The authSlice we built stores data in 'state.auth.admin', not 'state.auth.user'
+  const { isAuthenticated, admin } = useSelector((state) => state.auth);
+  const user = admin;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openAccordions, setOpenAccordions] = useState({});
   const [showPanelKey, setShowPanelKey] = useState(null);
@@ -112,7 +114,6 @@ export default function Topbar() {
     };
   }, []);
 
-  // (Other useEffects remain unchanged...)
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 900) {
@@ -135,11 +136,13 @@ export default function Topbar() {
   }, [mobileOpen]);
 
   function handleLoginClick() {
-    dispatch(openModal({ type: "login" })); // Use 'modalType' to match modalSlice
+    // This dispatch matches your RenderModal mapping { "login": <AdminLoginModal /> }
+    dispatch(openModal({ type: "login" }));
   }
 
   function handleLogoutClick() {
-    dispatch(logout());
+    // --- FIX 3: Use the correct action 'logoutAdmin' ---
+    dispatch(logoutAdmin());
     setIsProfileOpen(false);
   }
 
@@ -160,7 +163,7 @@ export default function Topbar() {
     <>
       <header className={styles.topbar} ref={rootRef}>
         <div className={styles.container}>
-          {/* LEFT: logo + mobile hamburger (Unchanged) */}
+          {/* LEFT: logo + mobile hamburger */}
           <div className={styles.left}>
             <div className={styles.logoAndHam}>
               <button
@@ -185,7 +188,7 @@ export default function Topbar() {
           {/* CENTER: desktop navs */}
           <div className={styles.center}>
             <div className={styles.topRow}>
-              {/* Top Nav (Unchanged) */}
+              {/* Top Nav */}
               <nav className={styles.topNav} aria-label="Primary navigation">
                 <ul className={styles.topNavList}>
                   {TOP_NAV.map((it) => (
@@ -223,14 +226,8 @@ export default function Topbar() {
                   alt="App Store"
                   className={styles.badge}
                 />
-                {/* <div className={styles.langWrapper}>
-                  <LanguageSelector
-                    language={language}
-                    onChange={setLanguage}
-                  />
-                </div> */}
 
-                {/* --- 3. UPDATED AUTH SECTION --- */}
+                {/* --- AUTH SECTION --- */}
                 {isAuthenticated && user ? (
                   // --- 1. USER IS LOGGED IN ---
                   <div className={styles.profileDropdown} ref={profileRef}>
@@ -240,23 +237,16 @@ export default function Topbar() {
                       onClick={() => setIsProfileOpen((o) => !o)}
                       aria-expanded={isProfileOpen}
                     >
-                      {/* --- USE YOUR FIXED IMAGE --- */}
-                      <div className={styles.userLogo}>
-                        {/* This div is now styled with your background image */}
-                      </div>
-
-                      {/* --- USE user.name from backend (in white) --- */}
-                      <span>{user.name || "My Account"}</span>
-
+                      <div className={styles.userLogo}></div>
+                      {/* Backend returns 'email' for admin, not 'name' currently. Fallback safely. */}
+                      <span>{user.name || user.email || "Admin"}</span>
                       <span className={styles.profileCaret}></span>
                     </button>
 
-                    {/* --- USE NEW DROPDOWN PANEL --- */}
                     {isProfileOpen && (
                       <ProfileDropdownPanel
                         user={user}
                         onLogout={handleLogoutClick}
-                        // --- THIS IS THE FIX ---
                         onClose={() => setIsProfileOpen(false)}
                       />
                     )}
@@ -271,11 +261,10 @@ export default function Topbar() {
                     {LOGIN_BTN.label}
                   </button>
                 )}
-                {/* --- END OF AUTH SECTION --- */}
               </div>
             </div>
 
-            {/* Bottom Row (Unchanged) */}
+            {/* Bottom Row */}
             <div className={styles.bottomRow}>
               <nav
                 className={styles.bottomNav}
@@ -351,7 +340,7 @@ export default function Topbar() {
         </div>
       </header>
 
-      {/* --- 4. UPDATED MOBILE MENU (to use fixed image) --- */}
+      {/* --- MOBILE MENU --- */}
       {mobileOpen && (
         <div
           className={styles.mobileMenuWrap}
@@ -393,17 +382,15 @@ export default function Topbar() {
               </button>
             </div>
 
-            {/* Mobile Login Button (or Profile) */}
+            {/* Mobile Login / Profile */}
             <div>
               {isAuthenticated && user ? (
-                // --- UPDATED: Mobile Profile View ---
                 <div className={styles.mobileProfile}>
                   <div className={styles.mobileProfileInfo}>
-                    <div className={styles.userLogo}>
-                      {/* This now uses the same fixed image style */}
-                    </div>
+                    <div className={styles.userLogo}></div>
                     <span>
-                      Signed in as <strong>{user.name}</strong>
+                      Signed in as{" "}
+                      <strong>{user.name || user.email || "Admin"}</strong>
                     </span>
                   </div>
                   <button
@@ -418,7 +405,6 @@ export default function Topbar() {
                   </button>
                 </div>
               ) : (
-                // --- Original Mobile Login Button ---
                 <button
                   type="button"
                   className={styles.mobileLoginBtn}
@@ -432,7 +418,7 @@ export default function Topbar() {
               )}
             </div>
 
-            {/* Top nav items (Unchanged) */}
+            {/* Mobile Nav Items */}
             <div className={styles.mobileListWrap}>
               <ul className={styles.mobileMenuList}>
                 {TOP_NAV.map((it) =>
@@ -479,7 +465,6 @@ export default function Topbar() {
 
             <hr />
 
-            {/* Bottom nav (Unchanged) */}
             <div>
               <ul className={styles.mobileMenuList}>
                 {BOTTOM_NAV.map((it) =>
@@ -503,11 +488,6 @@ export default function Topbar() {
                           className={styles.mobileAccToggle}
                           onClick={() => toggleAccordion(it.key)}
                           aria-expanded={!!openAccordions[it.key]}
-                          aria-label={
-                            openAccordions[it.key]
-                              ? `Collapse ${it.label}`
-                              : `Expand ${it.label}`
-                          }
                         >
                           {openAccordions[it.key] ? "−" : "+"}
                         </button>
@@ -545,7 +525,6 @@ export default function Topbar() {
 
             <hr />
 
-            {/* badges, language (Unchanged) */}
             <div className={styles.mobileBadgesRow}>
               <img
                 src="/googleplaystore.svg"
@@ -559,12 +538,8 @@ export default function Topbar() {
                 className={styles.badge}
                 style={{ height: 44 }}
               />
-              <div style={{ marginLeft: "auto" }}>
-                {/* z   <LanguageSelector language={language} onChange={setLanguage} /> */}
-              </div>
+              <div style={{ marginLeft: "auto" }}></div>
             </div>
-
-            <div className={styles.mobileBottomLinks}></div>
           </aside>
         </div>
       )}
