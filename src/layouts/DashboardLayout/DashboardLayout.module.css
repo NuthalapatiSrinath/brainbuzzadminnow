@@ -1,0 +1,26 @@
+.DashboardLayout {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  /* overflow-x: hidden;  <--- REMOVED: This was breaking the sticky header */
+}
+
+.LeftSection {
+  position: relative;
+  width: max-content;
+}
+
+.RightSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure main content pushes footer down if content is short */
+.RightSection > main {
+  flex: 1;
+  width: 100%;
+}

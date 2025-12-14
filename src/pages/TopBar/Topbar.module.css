@@ -1,0 +1,1020 @@
+/* Topbar.module.css
+    Desktop-only styles. Mobile rules removed.
+    Uses your index.css variables (--Primary_Color, --White_Color, etc.).
+*/
+/* src/pages/TopBar/Topbar.module.css */
+
+/* header (desktop) */
+.topbar {
+  background: linear-gradient(90deg, var(--Primary_Color) 0%, #2547c7 100%);
+  padding: 12px 16px;
+  box-shadow: 0 10px 24px rgba(32, 45, 90, 0.18);
+  color: var(--White_Color);
+  position: relative;
+
+  /* --- THIS IS THE FIX --- */
+  /* Uncomment this line (or add it) */
+  z-index: 40;
+
+  font-family: var(--Font_Family);
+}
+
+/* container layout */
+.container {
+  /* max-width: 140px; */
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* left logo */
+.left {
+  flex: 0 0 2px;
+}
+
+.logoAndHam {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoWrap {
+  width: 48px;
+  height: 48px;
+  background: var(--White_Color);
+  border-radius: 50%;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(25, 45, 90, 0.18);
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* center rows */
+.center {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+/* top row nav */
+.topRow {
+  padding-left: 5rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.topNavList {
+  padding-left: 1rem;
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.topNavItem {
+  position: relative;
+  font-size: var(--Font_Size_3);
+}
+
+.topLink {
+  color: var(--White_Color);
+  text-decoration: none;
+  padding: 6px;
+}
+
+.navBtn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* badges group: badges + language + login */
+.badgesGroup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.badge {
+  height: 48px;
+  object-fit: contain;
+  padding: 2px 6px;
+} /* --- ADD THIS TO Topbar.module.css --- */
+
+/* Wrapper for the profile dropdown */
+.profileDropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The button showing the user's name */
+.profileTrigger {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333; /* Adjust color as needed */
+  padding: 0.5rem;
+}
+.profileTrigger:hover {
+  color: #007bff; /* Adjust hover color */
+}
+
+/* The little arrow (caret) */
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+/* Point caret up when open */
+.profileTrigger[aria-expanded="true"] .profileCaret {
+  transform: rotate(180deg);
+}
+
+/* The dropdown panel itself */
+.profilePanel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  padding: 0.5rem 0;
+  z-index: 100;
+  margin-top: 0.5rem;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual items in the dropdown */
+.profileItem {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #212529;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.profileItem:hover {
+  background-color: #f8f9fa; /* Light grey hover */
+}
+
+/* Special style for the logout button */
+.logoutButton {
+  color: #dc3545; /* Red color for logout */
+  border-top: 1px solid #eee; /* Separator line */
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+}
+.logoutButton:hover {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+/* --- NEW: Mobile Menu Profile/Logout --- */
+.mobileProfile {
+  padding: 1rem 1.5rem;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+} /* Add these styles to src/pages/TopBar/Topbar.module.css */
+
+/* --- Profile Trigger Button (Desktop) --- */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f2f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 4px 12px 4px 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+} /* ADD THIS TO Topbar.module.css - DELETE ALL OLD/DUPLICATE PROFILE STYLES */
+
+/* Wrapper for the profile dropdown */
+.profileDropdown {
+  position: relative; /* This is crucial for the panel positioning */
+  display: flex;
+  align-items: center;
+}
+
+/* The button with the icon, name, and caret */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent; /* 1. NO BACKGROUND */
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-family: var(--Font_Family);
+}
+
+/* 2. THE NAME IN WHITE */
+.profileTrigger span {
+  color: var(--White_Color);
+  font-size: 15px;
+  font-weight: 600;
+  /* Truncate long user names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 3. THE FIXED IMAGE (Logo) */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--White_Color); /* White background for the icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Using your fixed image from public folder */
+  /* <-- YOUR FIXED IMAGE */
+  background-size: 70%; /* Adjust as needed */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 4. THE DROPDOWN CARET (White) */
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--White_Color); /* White caret */
+  margin-left: 4px;
+}
+
+/* --- Mobile Profile Section (Copied from your file) --- */
+.mobileProfile {
+  padding: 16px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobileProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.mobileLogoutBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* .profileTrigger:hover {
+  background-color: #e4e6e9;
+} */
+
+.profileTrigger span {
+  /* Truncate long names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #555;
+  margin-left: 4px;
+}
+
+/* --- User Logo (Desktop & Mobile) --- */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #d1d9e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.userIconSvg {
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
+}
+
+/* --- Mobile Profile Section --- */
+.mobileProfile {
+  padding: 16px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobileProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.mobileLogoutBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* ADD THIS TO Topbar.module.css - DELETE OLD .profileTrigger STYLES */
+
+/* Wrapper for the profile dropdown */
+.profileDropdown {
+  position: relative; /* This is crucial for the panel positioning */
+  display: flex;
+  align-items: center;
+}
+
+/* The button with the icon, name, and caret */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent; /* 1. NO BACKGROUND */
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-family: var(--Font_Family);
+}
+
+/* 2. THE NAME IN WHITE */
+.profileTrigger span {
+  color: var(--White_Color);
+  font-size: 15px;
+  font-weight: 600;
+  /* Truncate long user names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 3. THE FIXED IMAGE (Logo) */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  /* background-color: var(--White_Color); White background for the icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* The SVG icon inside the circle (colored like your logo) */
+.userIconSvg {
+  width: 18px;
+  height: 18px;
+  color: var(--Primary_Color); /* Icon is blue */
+}
+
+/* 4. THE DROPDOWN CARET (White) */
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--White_Color); /* White caret */
+  margin-left: 4px;
+}
+.mobileLogoutBtn {
+  width: 100%;
+  padding: 0.75rem;
+  font-weight: 600;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #dc3545;
+}
+.mobileLogoutBtn:hover {
+  background-color: #f8f9fa;
+}
+
+/* wrapper for LanguageSelector */
+.langWrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Login Button styles */
+.loginBtn {
+  background: var(--White_Color);
+  color: var(--Primary_Color);
+  border: none;
+  border-radius: 66px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: var(--Font_Size_2);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.loginBtn:hover {
+  background: #f4f7ff;
+  color: var(--Primary_Color);
+  transform: translateY(-1px);
+}
+
+/* bottom row nav */
+.bottomRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.bottomNavList {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bottomNavItem {
+  position: relative;
+  font-size: var(--Font_Size_3);
+  white-space: nowrap;
+}
+
+.bottomLink {
+  color: var(--White_Color);
+  padding: 6px;
+  text-decoration: none;
+}
+
+/* Carets */
+.caret {
+  margin-left: 6px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid rgba(255, 255, 255, 0.95);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.caretSmall {
+  margin-left: 6px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid rgba(255, 255, 255, 0.95);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* shared dropdown styles (for "Follow Us") */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 180px;
+  background: var(--White_Color);
+  color: var(--Black_Color);
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgba(10, 30, 80, 0.18);
+  padding: 8px 0;
+  margin: 0;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+  z-index: 60;
+}
+
+.dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdownItem {
+  display: block;
+  padding: 8px 14px;
+  font-size: var(--Font_Size_2);
+  color: var(--Black_Color);
+  text-decoration: none;
+}
+
+.dropdownItem:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(31, 77, 157, 0.05),
+    rgba(37, 71, 199, 0.03)
+  );
+  color: var(--Primary_Color);
+}
+
+/* RIGHT */
+.right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* hide mobile-specific classes */
+.hamburger,
+.mobileHamburger,
+.hamBarSmall,
+.openBar1,
+.openBar2,
+.openBar3,
+.mobileMenuWrap,
+.mobileHeader,
+.mobileListWrap,
+.mobileMenuList,
+.mobileAccBtn,
+.mobileAccBody,
+.mobileAccItem,
+.mobileLangBtn,
+.mobileBottomLinks,
+.mobileLoginBtn {
+  display: none;
+}
+
+.navBtn,
+.topLink,
+.bottomLink {
+  font-family: var(--Font_Family);
+}
+
+/* ---------- MOBILE (menu slides in from LEFT) ---------- */
+@media (max-width: 900px) {
+  .center,
+  .topRow,
+  .bottomRow,
+  .badgesGroup,
+  .langWrapper,
+  .right,
+  .loginBtn {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .logoAndHam {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 210;
+  }
+
+  .hamBar {
+    position: absolute;
+    width: 22px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--White_Color);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  .hamBar:nth-child(1) {
+    top: 13px;
+  }
+  .hamBar:nth-child(2) {
+    top: 21px;
+  }
+  .hamBar:nth-child(3) {
+    top: 29px;
+  }
+
+  .hamburger.open .hamBar:nth-child(1) {
+    transform: translateX(-50%) rotate(45deg);
+    top: 21px;
+  }
+  .hamburger.open .hamBar:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open .hamBar:nth-child(3) {
+    transform: translateX(-50%) rotate(-45deg);
+    top: 21px;
+  }
+  .hamburger.open .hamBar {
+    background: var(--Black_Color);
+  }
+  .hamburger.open.altColor .hamBar {
+    background: var(--Primary_Color);
+  }
+
+  .mobileMenuWrap {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    pointer-events: auto;
+  }
+
+  .mobileMenuBackdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 8, 34, 0.48);
+    backdrop-filter: blur(3px);
+  }
+
+  .mobileMenuPanel {
+    position: relative;
+    width: min(360px, 92%);
+    height: 100%;
+    background: var(--White_Color);
+    box-shadow: 18px 0 40px rgba(3, 12, 40, 0.3);
+    padding: 18px;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--Black_Color);
+  }
+
+  .mobileMenuPanel.open {
+    transform: translateX(0);
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .mobileListWrap {
+    display: block;
+  }
+
+  .mobileMenuList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mobileMenuList a,
+  .mobileMenuList button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--Black_Color);
+    background: transparent;
+    font-size: 15px;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .mobileMenuList a:hover,
+  .mobileMenuList button:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(31, 77, 157, 0.04),
+      rgba(37, 71, 199, 0.02)
+    );
+    color: var(--Primary_Color);
+  }
+
+  .mobileLoginBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--White_Color);
+    background: var(--Primary_Color);
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+  }
+  .mobileLoginBtn:hover {
+    filter: brightness(1.1);
+    color: var(--White_Color);
+  }
+
+  .mobileAccBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .mobileAccBody {
+    padding-left: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mobileAccBody.open {
+    display: flex;
+  }
+
+  .mobileAccItem {
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--Black_Color);
+    font-size: 14px;
+  }
+
+  .mobileBadgesRow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .mobileBottomLinks {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* compact header for small screens */
+@media (max-width: 900px) {
+  .topbar {
+    padding: 0px 12px;
+  }
+
+  .logoWrap {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+  }
+
+  .hamburger {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+  }
+
+  .hamBar:nth-child(1) {
+    top: 11px;
+  }
+  .hamBar:nth-child(2) {
+    top: 19px;
+  }
+  .hamBar:nth-child(3) {
+    top: 27px;
+  }
+
+  .logo {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* hover-dropdown styles */
+@media (min-width: 901px) {
+  /* Simple Dropdown hover */
+  .topNavItem:hover .dropdown,
+  .bottomNavItem:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Simple Link hover */
+  .bottomNavItem:hover > .bottomLink {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--White_Color);
+    border-radius: 8px;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    transform: translateY(-1px);
+  }
+
+  /* Panel Trigger hover */
+  .panelTriggerWrap:hover .bottomLink {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--White_Color);
+    border-radius: 8px;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    transform: translateY(-1px);
+  }
+
+  .bottomNavItem:hover .caret,
+  .bottomNavItem:hover .caretSmall {
+    transform: translateY(-2px) rotate(180deg);
+    transition: transform 160ms ease;
+  }
+}
+/* mobile: single bottom nav row with toggle */
+.mobileBottomItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 4px;
+}
+
+.mobileAccToggle {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--Black_Color);
+  border-radius: 8px;
+}
+
+.mobileAccToggle:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(31, 77, 157, 0.04),
+    rgba(37, 71, 199, 0.02)
+  );
+  color: var(--Primary_Color);
+}
+
+.mobileBottomItem .mobileAccItem {
+  padding: 12px 8px;
+  text-decoration: none;
+  color: var(--Black_Color);
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+/* === Panel Trigger styles (FOR HOVER PANEL) === */
+.panelTriggerWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.panelTriggerWrap .bottomLink {
+  color: var(--White_Color);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--Font_Size_3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px; /* Ensure padding matches other links */
+}
+
+.panelToggleBtn {
+  background: transparent;
+  border: none;
+  color: var(--White_Color);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panelToggleBtn::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid rgba(255, 255, 255, 0.95);
+}
+
+.panelTriggerWrap:hover .bottomLink,
+.panelTriggerWrap:hover .panelToggleBtn::after {
+  color: var(--White_Color);
+  border-top-color: rgba(255, 255, 255, 1);
+}

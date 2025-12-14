@@ -1,0 +1,100 @@
+/* src/components/CategoryHomeCard/CategoryHomeCard.module.css */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 140px;
+  padding: 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+
+  /* --- 1. ADD POSITION AND OVERFLOW --- */
+  position: relative;
+  overflow: hidden;
+
+  /* --- 2. REMOVE OLD TRANSITION --- */
+  /* transition: transform 0.2s ease, box-shadow 0.2s ease; */
+}
+
+/* --- 3. REMOVE OLD HOVER RULE --- */
+/*
+.card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+*/
+
+/* --- 4. ADD TRANSITION TO IMAGE AND LABEL --- */
+.imageWrapper,
+.image,
+.label {
+  transition: transform 0.3s ease-out;
+}
+
+.image {
+  width: 32px;
+  height: 40px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.label {
+  font-family: var(--Font_Family);
+  font-size: var(--Font_Size_3, 16px);
+  font-weight: 600;
+  color: #045666;
+  text-align: center;
+}
+
+/* --- 5. ADD STYLES FOR THE NEW HOVER CONTENT --- */
+.hoverContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.7); /* White, slightly transparent */
+  backdrop-filter: blur(4px); /* Blur effect */
+  padding: 0.75rem;
+
+  /* Start hidden at the bottom */
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.hoverLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--Primary_Color);
+}
+
+/* --- 6. ADD THE NEW HOVER EFFECT (DESKTOP ONLY) --- */
+@media (min-width: 901px) {
+  /* When a .hoverable card is hovered... */
+
+  .card.hoverable:hover .imageWrapper {
+    transform: translateY(-10px); /* Move icon up */
+  }
+
+  .card.hoverable:hover .label {
+    transform: translateY(-12px); /* Move label up */
+  }
+
+  .card.hoverable:hover .hoverContent {
+    transform: translateY(0); /* Slide panel up */
+  }
+
+  /* Add the shadow effect on hover as well */
+  .card.hoverable {
+    transition: box-shadow 0.2s ease;
+  }
+  .card.hoverable:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+}

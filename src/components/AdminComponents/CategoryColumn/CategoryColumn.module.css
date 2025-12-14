@@ -1,0 +1,221 @@
+:root {
+  --blue-50: #eef6ff;
+  --blue-100: #e8f0ff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #0b69ff;
+}
+
+/* One column card */
+.column {
+  background: #fff;
+  border-radius: 8px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+/* Header band like image */
+.header {
+  background: var(--blue-100);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.02);
+}
+
+/* left side (checkbox + name) */
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* fake checkbox wrapper */
+.checkboxWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.fakeBox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: inset 0 0 0 4px rgba(235, 245, 255, 1);
+}
+
+/* when checkbox is checked show a small filled dot */
+.checkbox:checked + .fakeBox {
+  background: linear-gradient(180deg, #fff 0%, #f1f9ff 100%);
+  box-shadow: inset 0 0 0 3px rgba(11, 105, 255, 0.12);
+  border-color: rgba(11, 105, 255, 0.22);
+}
+
+/* category name style */
+.categoryName {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* header action icon buttons */
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #0f172a;
+  font-size: 14px;
+}
+.iconBtn:hover {
+  background: rgba(2, 6, 23, 0.04);
+}
+
+/* sub list */
+.subList {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+/* each sub item row */
+.subItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* left side of sub item */
+.subLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* smaller checkbox */
+.checkboxWrapSmall {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.checkboxSmall {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.fakeBoxSmall {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #f6f9ff;
+  border: 1px solid rgba(15, 23, 42, 0.03);
+  box-shadow: 0 0 0 3px rgba(242, 248, 255, 1) inset;
+}
+.checkboxSmall:checked + .fakeBoxSmall {
+  box-shadow: inset 0 0 0 3px rgba(11, 105, 255, 0.14);
+  border-color: rgba(11, 105, 255, 0.22);
+}
+
+/* sub text button (clickable text to open modal) */
+.subTextBtn {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  padding: 0;
+  text-align: left;
+}
+.subTextBtn:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+/* small icon actions for subitems */
+.subActions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.iconBtnSmall {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+.iconBtnSmall:hover {
+  background: rgba(2, 6, 23, 0.03);
+  color: #ef4444;
+}
+
+/* add row at bottom */
+.addRow {
+  border-top: 1px dashed rgba(15, 23, 42, 0.03);
+  padding: 10px 12px;
+}
+.addLink {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 0;
+}
+.addLink:hover {
+  text-decoration: underline;
+}
+.emptyNote {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* small screens: keep items spaced well */
+@media (max-width: 560px) {
+  .header {
+    padding: 8px;
+  }
+  .subList {
+    padding: 10px;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,125 @@
+/* Import Poppins font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* ============================= */
+/* 🎨 Theme Variables */
+/* ============================= */
+:root {
+  --Primary_Color: #1f4d9d;
+  --Background_Color: #ebf0ff;
+  --Utility_Color1: #9be1ef;
+  --Utility_Color2: #8dd6c6;
+  --Utility_Color3: #faadc1;
+  --Utility_Color4: #97a9da;
+
+  --White_Color: #ffffff;
+  --Grey_Color: #ada0a0;
+  --Black_Color: #000000;
+
+  --Error_Color: #c0392b;
+  --Success_Color: #27ae60;
+  --Warning_Color: #e67e22;
+  --Info_Color: #2980b9;
+
+  /* Font family */
+  --Font_Family: "Poppins", sans-serif;
+
+  /* Font Sizes */
+  --Font_Size_1: 14px;
+  --Font_Size_2: 15px;
+  --Font_Size_3: 16px;
+  --Font_Size_4: 17px;
+  --Font_Size_5: 18px;
+  --Font_Size_6: 19px;
+  --Font_Size_7: 20px;
+}
+
+/* ============================= */
+/* 🌍 Reset + Global Styles */
+/* ============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: var(--Font_Family);
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Body */
+body {
+  font-family: var(--Font_Family);
+  /* background-color: var(--Background_Color); */
+  color: var(--Black_Color);
+}
+
+/* ============================= */
+/* 🌸 Accent & Scrollbar Styling */
+/* ============================= */
+
+/* Scrollbar for Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--Utility_Color1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--Primary_Color), #a54ea8);
+  border-radius: 10px;
+  border: 2px solid var(--Utility_Color1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a54ea8, var(--Primary_Color));
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--Primary_Color) var(--Utility_Color1);
+}
+
+/* Selection (highlight text) */
+::selection {
+  background-color: var(--Primary_Color);
+  color: var(--White_Color);
+}
+
+/* Accent for interactive hover/focus states */
+button,
+a,
+[role="button"],
+.clickable {
+  transition: all 0.2s ease;
+}
+
+button:hover,
+a:hover,
+[role="button"]:hover,
+.clickable:hover {
+  filter: brightness(1.05);
+}
+
+/* Accent underline for active navigation or headings */
+.active,
+.navItem.active,
+.navItem:hover {
+  color: var(--Primary_Color);
+}
+
+/* Divider line */
+hr {
+  border: none;
+  border-top: 1px solid rgba(153, 51, 153, 0.2);
+  margin: 1rem 0;
+}

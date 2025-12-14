@@ -1,0 +1,153 @@
+.profilePanel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 450px; /* Adjusted width for a compact 3-column grid */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  z-index: 1001;
+  margin-top: 12px;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.userIconLarge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #eef2f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+  color: #007bff;
+}
+
+.userIconSvg {
+  width: 28px;
+  height: 28px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* --- GRID LAYOUT FOR 6 ITEMS (3x2) --- */
+.profileRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+  gap: 12px;
+  padding: 16px;
+}
+
+/* Target the CategoryHomeCard component to style it small */
+.smallCard {
+  padding: 15px 10px !important;
+  min-height: 90px !important;
+  width: 100% !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  border-radius: 8px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+}
+
+/* --- HOVER EFFECT: BOX SHADOW ONLY --- */
+.smallCard:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  /* background-color: #fff !important; */
+  /* border-color: transparent !important; */
+}
+
+/* Ensure image inside card is sized correctly */
+.smallCard img {
+  width: 32px !important;
+  height: 32px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Ensure text inside card is sized correctly */
+.smallCard span,
+.smallCard h3,
+.smallCard p {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: #333 !important;
+  margin: 0 !important;
+}
+
+/* --- FOOTER: LOGOUT SECTION --- */
+.profileFooter {
+  padding: 16px;
+  /* Separate the footer visually from the grid */
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+}
+
+.logoutButton {
+  /* --- EXACT STYLING MATCH FOR LOGOUT BUTTON --- */
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #e0e0e0; /* Subtle grey border */
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #fff5f5;
+  border-color: #d93025;
+  box-shadow: 0 1px 5px rgba(217, 48, 37, 0.3);
+}

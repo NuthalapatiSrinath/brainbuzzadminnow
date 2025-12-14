@@ -1,0 +1,111 @@
+:root {
+  --page-bg: #f7f9fb;
+  --box-bg: #fff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #0b69ff;
+}
+
+/* Page wrapper */
+.pageWrap {
+  padding: 18px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: var(--page-bg);
+}
+
+/* white container */
+.box {
+  background: var(--box-bg);
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.02);
+}
+
+/* grid: show many columns horizontally, responsive */
+.gridWrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+/* wrapper per slot (to allow left-only special column) */
+.columnSlot {
+  min-width: 160px;
+}
+
+/* left only special column */
+.leftOnly {
+  background: #fff;
+  border-radius: 8px;
+  min-height: 150px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+.leftAdd {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 0;
+}
+.leftAdd:hover {
+  text-decoration: underline;
+}
+
+/* footer with Add Category button on right */
+.footerRow {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 6px;
+  border-top: 1px solid rgba(2, 6, 23, 0.02);
+}
+.addCategoryBtn {
+  background: transparent;
+  border: 1px dashed rgba(11, 105, 255, 0.16);
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 20px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.addCategoryBtn:hover {
+  background: rgba(11, 105, 255, 0.04);
+}
+.plusIcon {
+  font-size: 16px;
+}
+
+/* Make the grid horizontally scrollable on very small screens (like screenshot behavior) */
+@media (max-width: 720px) {
+  .gridWrap {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+  .columnSlot {
+    min-width: 220px;
+    flex: 0 0 220px;
+  }
+}
+
+/* single column layout */
+@media (max-width: 420px) {
+  .columnSlot {
+    min-width: 260px;
+    flex: 0 0 260px;
+  }
+  .box {
+    padding: 10px;
+  }
+}

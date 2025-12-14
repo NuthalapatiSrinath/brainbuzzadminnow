@@ -1,0 +1,42 @@
+/* Based on the styles from image_000026.png */
+.pillContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Aligns pills to the left */
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+.pillButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border: none;
+  background: #ffffff; /* Inactive pill is white */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333; /* Dark text for inactive */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pillButton:hover:not(.active) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Active pill style, matching the blue "All" button */
+.pillButton.active {
+  background-color: #b0bce0; /* Muted blue from image */
+  color: #ffffff; /* White text */
+  box-shadow: 0 4px 12px rgba(176, 188, 224, 0.4);
+}
+
+.pillButton.active:hover {
+  transform: none;
+}

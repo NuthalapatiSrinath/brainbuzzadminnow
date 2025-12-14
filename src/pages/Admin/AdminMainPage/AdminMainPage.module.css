@@ -1,0 +1,141 @@
+.pageWrapper {
+  /* Make the wrapper take full viewport height and use flex column layout */
+  height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  /* Remove general padding from wrapper so scrollbars align to edges */
+  padding: 0;
+  overflow: hidden; /* Prevent body scroll */
+}
+
+/* Create a container for the fixed header parts (Title, Pills, Actions) */
+.headerContainer {
+  /* Add padding here instead of pageWrapper */
+  padding: 2rem 2rem 0 2rem;
+  background-color: #f8f9fa; /* Match page background */
+  flex-shrink: 0; /* Prevent header from shrinking */
+  z-index: 10; /* Ensure it stays on top */
+}
+
+.pageTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Pills Row --- */
+.pillsRow {
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 5px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.pillsRow::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Action Bar (Dropdown + Date) --- */
+.actionBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+  /* Add margin-bottom here to separate from scrollable content */
+  margin-bottom: 1.5rem;
+  border: 1px solid #eaeaea;
+}
+
+.leftAction {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex: 1;
+}
+
+.dropdownLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.dropdownWrapper {
+  min-width: 250px;
+}
+
+.customDropdown {
+  width: 100%;
+}
+
+.secondaryTrigger {
+  width: 100% !important;
+  justify-content: space-between !important;
+  border: 1px solid #ddd !important;
+  padding: 10px 16px !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+  color: #333 !important;
+}
+
+.dateDisplay {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+  background: #f1f3f5;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+/* --- Content Area (SCROLLABLE) --- */
+.contentArea {
+  flex: 1; /* Take remaining height */
+  background: #fff;
+  /* Remove border-radius from top if you want it flush, or keep it */
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  /* Add padding inside the scrollable area */
+  /* padding: 2rem; */
+  border: 1px solid #eee;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
+  /* Enable vertical scrolling */
+  overflow-y: auto;
+  /* Add margin to sides to align with header padding */
+  /* margin: 0 2rem 2rem 2rem; */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .headerContainer {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .contentArea {
+    margin: 0 1rem 1rem 1rem;
+    padding: 1rem;
+  }
+
+  .actionBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .leftAction {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .dropdownWrapper {
+    width: 100%;
+  }
+  .dateDisplay {
+    align-self: flex-end;
+  }
+}

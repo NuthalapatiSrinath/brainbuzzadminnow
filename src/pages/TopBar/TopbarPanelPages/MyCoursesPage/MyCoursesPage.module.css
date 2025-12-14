@@ -1,0 +1,105 @@
+/*
+ * Styles for MyCoursesSection
+ * Uses variables from your global index.css
+ */
+
+.section {
+  width: 100%;
+  padding: 4rem 2rem; /* Vertical and horizontal padding */
+  /* background-color: var(--White_Color, #fff); */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === Heading Styles (Copied from CategoryHomeSection for consistency) === */
+.headingWrapper {
+  margin-bottom: 2.5rem;
+}
+
+.headingline {
+  display: flex;
+  align-items: center; /* Vertically aligns the text and the line */
+  gap: 1rem; /* Adds space between "My Courses" and the line */
+}
+
+.heading {
+  font-size: 22px;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap; /* Prevents "My Courses" from wrapping */
+}
+
+.headingUnderline {
+  height: 4px;
+  width: 80px;
+  background: var(--Primary_Color, #1f4d9d);
+  border-radius: 2px;
+}
+
+/* Subtitle style adjusted to match the gray text in the image */
+.subtitle {
+  color: var(--Black_Color);
+  font-weight: 500;
+  margin: 12px 0 24px 0;
+  font-size: var(--Font_Size_6, 17px);
+  line-height: 1.6;
+  /* max-width: 700px; */
+}
+
+/* === Grid Styles === */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 column by default (mobile-first) */
+  gap: 1.5rem; /* Space between cards */
+}
+
+/* === Responsive Design === */
+@media (min-width: 640px) {
+  /* On small tablets, go to 2 columns */
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* On large tablets/small desktops, go to 3 columns */
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  /* On large desktops, go to 4 columns */
+  .gridContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  /* This rule is fine, but the 1fr default above already covers it */
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 2.5rem 1rem;
+  }
+
+  .headingline {
+    gap: 0.5rem; /* Reduce gap on mobile */
+  }
+
+  .heading {
+    font-size: 20px; /* Slightly smaller heading on mobile */
+  }
+
+  .subtitle {
+    font-size: var(--Font_Size_2, 15px);
+  }
+}

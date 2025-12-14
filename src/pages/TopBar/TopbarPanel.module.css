@@ -1,0 +1,134 @@
+/* src/components/Topbar/TopbarPanel.module.css */
+
+/* Panel sits fixed below the topbar. Set --topbar-height if needed */
+.panelWrap {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--topbar-height, 72px);
+    z-index: 90;
+    background: #ffffff;
+    box-shadow: 0 10px 40px rgba(2, 6, 23, 0.12);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+    padding: 12px 18px;
+    box-sizing: border-box;
+}
+
+/* center content like main container */
+.panelInner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* top row: empty left, close on right (no title) */
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* close button at top-right */
+.closeBtn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+/* 8 columns, 2 rows => total 16 slots */
+.itemsGrid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: minmax(120px, auto);
+    gap: 18px;
+    align-items: center;
+}
+
+/* card */
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.06);
+    border: 1px solid rgba(15, 23, 42, 0.03);
+    min-height: 120px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    cursor: pointer;
+}
+
+/* slight lift on hover */
+.item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(2, 6, 23, 0.10);
+}
+
+/* image styling */
+.itemIcon {
+    width: 86px;
+    height: 86px;
+    object-fit: contain;
+    display: block;
+}
+
+/* label under icon (or alone when icon missing) */
+.itemLabel {
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial;
+    font-weight: 600;
+    font-size: 13px;
+    color: #0f172a;
+    text-align: center;
+}
+
+/* placeholder slot style: invisible but keeps grid structure */
+.itemEmpty {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    pointer-events: none;
+    min-height: 120px;
+}
+
+/* Responsive: if width is smaller, reduce columns but preserve two rows visually */
+@media (max-width: 1400px) {
+    .itemsGrid {
+        gap: 14px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .itemsGrid {
+        grid-template-columns: repeat(6, 1fr);
+        /* 6 columns on medium screens */
+    }
+}
+
+@media (max-width: 960px) {
+
+    /* hide the desktop panel on small screens so mobile menu continues to work */
+    .panelWrap {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .itemsGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .itemIcon {
+        width: 64px;
+        height: 64px;
+    }
+}

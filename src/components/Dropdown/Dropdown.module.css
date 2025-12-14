@@ -1,0 +1,124 @@
+/* Dropdown.module.css
+   Scoped dropdown styles. These aim to be consistent with Topbar visuals.
+*/
+
+.root {
+    position: relative;
+    display: inline-block;
+    font-family: var(--Font_Family);
+}
+
+/* Trigger button */
+.trigger {
+    background: transparent;
+    border: none;
+    color: var(--White_Color);
+    padding: 6px;
+    font-size: var(--Font_Size_3);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 140ms ease;
+}
+
+.trigger:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 100, 250, 0.12);
+}
+
+/* caret triangle */
+.caret {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 7px solid rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Menu base */
+.menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 180px;
+    background: var(--White_Color);
+    color: var(--Black_Color);
+    border-radius: 8px;
+    box-shadow: 0 10px 26px rgba(10, 30, 80, 0.18);
+    padding: 8px 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+    z-index: 60;
+}
+
+/* show menu */
+.menu.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* alignment helpers */
+.alignLeft {
+    left: 6px;
+    transform: translateX(0) translateY(-6px);
+}
+
+.alignLeft.open {
+    transform: translateX(0) translateY(0);
+}
+
+.alignRight {
+    left: auto;
+    right: 6px;
+    transform: translateX(0) translateY(-6px);
+}
+
+.alignRight.open {
+    transform: translateX(0) translateY(0);
+}
+
+.alignCenter {
+    /* default uses left:50% with translateX(-50%) */
+}
+
+/* menu items */
+.menuItemWrap {
+    margin: 0;
+}
+
+.menuItem {
+    display: block;
+    padding: 8px 14px;
+    font-size: var(--Font_Size_2);
+    color: var(--Black_Color);
+    text-decoration: none;
+    background: transparent;
+}
+
+.menuItem:hover,
+.menuItem:focus {
+    background: linear-gradient(90deg, rgba(31, 77, 157, 0.03), rgba(37, 71, 199, 0.02));
+    color: var(--Primary_Color);
+    outline: none;
+}
+
+/* small responsive tweak */
+@media (max-width: 780px) {
+    .menu {
+        left: 0 !important;
+        right: 0 !important;
+        transform: translateY(-6px) !important;
+        min-width: unset;
+        width: 220px;
+    }
+}
