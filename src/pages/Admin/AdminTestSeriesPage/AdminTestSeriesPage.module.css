@@ -1,0 +1,90 @@
+.pageWrap {
+  padding: 24px;
+  background-color: #f8fafc; /* Light gray background */
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- HEADER --- */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.headerRow h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+/* --- BUTTONS --- */
+.addBtnMain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addBtnMain:hover {
+  background-color: #1d4ed8;
+}
+
+.bulkDeleteBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.bulkDeleteBtn:hover {
+  background-color: #fecaca;
+}
+
+/* --- COLUMNS WRAPPER --- */
+.columnsContainer {
+  flex: 1;
+  overflow-x: auto; /* Allows horizontal scroll if many categories */
+  padding-bottom: 20px;
+}
+
+/* --- UTILS --- */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.emptyState {
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  color: #64748b;
+}

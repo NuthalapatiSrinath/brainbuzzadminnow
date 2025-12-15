@@ -1,19 +1,14 @@
 import axios from "axios";
 
-// Get the token from localStorage
+// --- FIX: Get 'adminToken' directly (matches authSlice) ---
 const getToken = () => {
-  try {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    return auth ? auth.token : null;
-  } catch (e) {
-    return null;
-  }
+  return localStorage.getItem("adminToken");
 };
 
 // Create the axios client
 const apiClient = axios.create({
   // Use your backend's base URL
-  baseURL: "http://localhost:5000/api", // <-- Change this if your backend is elsewhere
+  baseURL: "http://localhost:5000/api",
   headers: {
     "Content-Type": "application/json",
   },

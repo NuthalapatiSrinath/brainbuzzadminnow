@@ -1,10 +1,17 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout/DashboardLayout";
 import HomePage from "../pages/HomePage/HomePage";
+
 // --- ADMIN IMPORTS ---
 import AdminMainPage from "../pages/Admin/AdminMainPage/AdminMainPage";
 import AdminOnlineCoursesPage from "../pages/Admin/AdminOnlineCoursesPage/AdminOnlineCoursesPage";
+import AdminTestSeriesPage from "../pages/Admin/AdminTestSeriesPage/AdminTestSeriesPage";
+import AdminDailyQuizPage from "../pages/Admin/AdminDailyQuizPage/AdminDailyQuizPage";
+import AdminCurrentAffairsPage from "../pages/Admin/AdminCurrentAffairsPage/AdminCurrentAffairsPage";
+import AdminEBooksPage from "../pages/Admin/AdminEBooksPage/AdminEBooksPage";
+import AdminPublicationPage from "../pages/Admin/AdminPublicationPage/AdminPublicationPage";
+import AdminPreviousPaperPage from "../pages/Admin/AdminPreviousPaperPage/AdminPreviousPaperPage";
 
 // --- Placeholder Component ---
 const PlaceholderPage = ({ title }) => (
@@ -33,59 +40,78 @@ export default function AppRoutes() {
         {/* Parent Route: The Layout */}
         <Route path="/" element={<DashboardLayout />}>
           {/* Child Route: The HomePage */}
+          <Route index element={<HomePage />} />
+
+          {/* --- ADMIN CONTENT ROUTES --- */}
+          {/* Parent Path: /admin/content */}
           <Route path="/admin/content" element={<AdminMainPage />}>
-            {/* ADD ROUTES */}
-            <Route index element={<AdminOnlineCoursesPage />} />
+            {/* Default: Redirect to the first Add option */}
+            <Route
+              index
+              element={<Navigate to="add/online-course" replace />}
+            />
+
+            {/* ======================================================== */}
+            {/* 1. ADD ROUTES (Relative Paths - NO leading slash)        */}
+            {/* Result: /admin/content/add/online-course                 */}
+            {/* ======================================================== */}
             <Route
               path="add/online-course"
               element={<AdminOnlineCoursesPage />}
             />
-            <Route
-              path="add/test-series"
-              element={<PlaceholderPage title="Add Test Series" />}
-            />
-            <Route
-              path="add/daily-quiz"
-              element={<PlaceholderPage title="Add Daily Quiz" />}
-            />
+            <Route path="add/test-series" element={<AdminTestSeriesPage />} />
+            <Route path="add/daily-quiz" element={<AdminDailyQuizPage />} />
             <Route
               path="add/current-affairs"
-              element={<PlaceholderPage title="Add Current Affairs" />}
+              element={<AdminCurrentAffairsPage />}
             />
-            <Route
-              path="add/publication"
-              element={<PlaceholderPage title="Add Publication" />}
-            />
+            <Route path="add/e-book" element={<AdminEBooksPage />} />
+            <Route path="add/publication" element={<AdminPublicationPage />} />
             <Route
               path="add/previous-paper"
-              element={<PlaceholderPage title="Add Previous Paper" />}
+              element={<AdminPreviousPaperPage />}
             />
 
-            {/* UPDATE ROUTES */}
+            {/* Placeholders for future pages */}
+            <Route
+              path="add/live-class"
+              element={<PlaceholderPage title="Add Live Class" />}
+            />
+            <Route
+              path="add/banner"
+              element={<PlaceholderPage title="Add Banner" />}
+            />
+
+            {/* ======================================================== */}
+            {/* 2. UPDATE ROUTES (Relative Paths - NO leading slash)     */}
+            {/* Result: /admin/content/update/online-courses             */}
+            {/* ======================================================== */}
             <Route
               path="update/online-courses"
-              element={<PlaceholderPage title="Update Online Courses" />}
+              element={<AdminOnlineCoursesPage />}
             />
             <Route
               path="update/test-series"
-              element={<PlaceholderPage title="Update Test Series" />}
+              element={<AdminTestSeriesPage />}
             />
             <Route
               path="update/daily-quizzes"
-              element={<PlaceholderPage title="Update Daily Quizzes" />}
+              element={<AdminDailyQuizPage />}
             />
             <Route
               path="update/current-affairs"
-              element={<PlaceholderPage title="Update Current Affairs" />}
+              element={<AdminCurrentAffairsPage />}
             />
+            <Route path="update/e-books" element={<AdminEBooksPage />} />
             <Route
               path="update/publications"
-              element={<PlaceholderPage title="Update Publications" />}
+              element={<AdminPublicationPage />}
             />
             <Route
               path="update/previous-papers"
-              element={<PlaceholderPage title="Update Previous Papers" />}
+              element={<AdminPreviousPaperPage />}
             />
+
             <Route
               path="update/live-classes"
               element={<PlaceholderPage title="Update Live Classes" />}
@@ -95,16 +121,7 @@ export default function AppRoutes() {
               element={<PlaceholderPage title="Update Banners" />}
             />
           </Route>
-          <Route index element={<HomePage />} />
-
-          {/* <Route path="about" element={<AboutPage />} />
-          <Route path="treatments" element={<TreatmentsPage />} />
-          <Route path="gallery" element={<GalleryPage />} />
-          <Route path="contact" element={<ContactUsPage />} />
-
-         
-          <Route path="blogs" element={<BlogsPage />} />
-          <Route path="blogs/:id" element={<BlogDetailsPage />} /> */}
+          {/* --- END ADMIN ROUTES --- */}
         </Route>
 
         <Route path="*" element={<div>404 Not Found</div>} />

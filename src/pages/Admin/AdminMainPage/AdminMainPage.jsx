@@ -9,32 +9,35 @@ export default function AdminMainPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- 1. Configuration for the 9 Tabs ---
+  // --- 1. Configuration for the Tabs ---
   const allTabs = [
     { label: "Add Content", path: "add", isAddTab: true },
     { label: "Update Online Courses", path: "update/online-courses" },
     { label: "Update Test Series", path: "update/test-series" },
     { label: "Update Daily Quizzes", path: "update/daily-quizzes" },
     { label: "Update Current Affairs", path: "update/current-affairs" },
+    { label: "Update E-books", path: "update/e-books" }, // Added
     { label: "Update Publications", path: "update/publications" },
     { label: "Update Previous Papers", path: "update/previous-papers" },
     { label: "Update Live Classes", path: "update/live-classes" },
     { label: "Update Banners", path: "update/banners" },
   ];
 
-  // --- 2. Content Options ---
+  // --- 2. Content Options (Dropdown) ---
   const contentOptions = [
     { label: "Online Course", value: "online-course" },
     { label: "Test Series", value: "test-series" },
     { label: "Daily Quiz", value: "daily-quiz" },
     { label: "Current Affairs Article", value: "current-affairs" },
+    { label: "E-book", value: "e-book" }, // Added
     { label: "Publication/Book", value: "publication" },
     { label: "Previous Year Paper", value: "previous-paper" },
+    { label: "Live Class", value: "live-class" },
+    { label: "Banner", value: "banner" },
   ];
 
   // --- State ---
   const [activeTabLabel, setActiveTabLabel] = useState("Add Content");
-  // Initialize with YYYY-MM-DD format for the input[type="date"] to work correctly
   const [selectedDate, setSelectedDate] = useState("2025-09-25");
   const [selectedContent, setSelectedContent] = useState(contentOptions[0]);
 
@@ -95,7 +98,7 @@ export default function AdminMainPage() {
         {/* Action Bar (Visible only for Add Content) */}
         {isAddTabActive && (
           <div className={styles.actionBar}>
-            {/* LEFT: Select Content Dropdown (Rich Variant) */}
+            {/* LEFT: Select Content Dropdown */}
             <div className={styles.leftAction}>
               <div style={{ minWidth: "220px" }}>
                 <AdminPanelDropdown
@@ -103,13 +106,13 @@ export default function AdminMainPage() {
                   options={contentOptions}
                   selectedOption={selectedContent}
                   onSelect={handleContentSelect}
-                  variant="rich" // Rich UI style
+                  variant="rich"
                   placeholder="Select Content Type"
                 />
               </div>
             </div>
 
-            {/* RIGHT: Select Date Dropdown (Rich Variant) */}
+            {/* RIGHT: Select Date Dropdown */}
             <div className={styles.rightAction}>
               <div style={{ minWidth: "180px" }}>
                 <AdminDateDropdown

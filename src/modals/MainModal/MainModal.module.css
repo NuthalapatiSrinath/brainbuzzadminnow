@@ -1,31 +1,72 @@
+/* -------------------------------------------------------------------------- */
+/* MAIN OVERLAY                                 */
+/* -------------------------------------------------------------------------- */
 .MainModal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  /* dim background */
-  display: flex;
-  justify-content: flex-end;
-  /* 👈 push modal to right side */
-  align-items: stretch;
-  /* full height */
+  inset: 0; /* Forces it to top:0, left:0, right:0, bottom:0 */
+  width: 100vw;
+  height: 100vh;
   z-index: 2000;
+
+  /* Flexbox for positioning children */
+  display: flex;
+
+  /* Visuals */
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+
+  /* 🔴 CRITICAL FIX: This cuts off the sliding element so no scrollbar appears */
   overflow: hidden;
-  /* disable scroll inside overlay */
 }
 
-/* Right-side drawer modal */
-.drawer {
-  /* adjust drawer width */
-  max-width: 90%;
-  height: 100%;
+/* -------------------------------------------------------------------------- */
+/* LAYOUT VARIANTS                                 */
+/* -------------------------------------------------------------------------- */
 
-  overflow-y: auto;
-  /* if content is taller than viewport */
+/* Center Layout (Login, Delete) */
+.centered {
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
+/* Right-Side Layout (Categories, SubCategories) */
+.fullscreen {
+  justify-content: flex-end; /* Aligns content to the right edge */
+  align-items: stretch; /* Full height */
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTENT WRAPPERS                                */
+/* -------------------------------------------------------------------------- */
+
+.centerContent {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  max-height: 90vh;
+  overflow-y: auto; /* Internal scroll for content */
   position: relative;
-  border-radius: 0;
-  /* flat edge against right */
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerContent {
+  background: #ffffff;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2); /* Shadow on the left side */
+  height: 100%;
+  width: 100%;
+  max-width: 500px; /* Fixed width for the drawer */
+  min-width: 320px;
+  overflow-y: auto; /* Internal scroll */
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .drawerContent {
+    max-width: 100%;
+  }
 }

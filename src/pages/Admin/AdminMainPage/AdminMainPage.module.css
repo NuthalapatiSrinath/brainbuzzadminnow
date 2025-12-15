@@ -1,6 +1,6 @@
 .pageWrapper {
   /* Make the wrapper take full viewport height and use flex column layout */
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
@@ -106,7 +106,7 @@
   border: 1px solid #eee;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
   /* Enable vertical scrolling */
-  overflow-y: auto;
+  /* overflow-y: auto; */
   /* Add margin to sides to align with header padding */
   /* margin: 0 2rem 2rem 2rem; */
 }

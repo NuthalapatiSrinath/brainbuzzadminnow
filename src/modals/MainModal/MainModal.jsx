@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from "./MainModal.module.css";
 
-function MainModal({ children }) {
+function MainModal({ children, onClose }) {
+  // ✅ Accept onClose
   const activeModal = useSelector((state) => state.modal.type);
 
-  const isFullScreen = ["studentSection", "staffSection"].includes(activeModal);
+  // List of modals that should appear as a Side Drawer (Right side)
+  const isDrawer = ["studentSection", "staffSection"].includes(activeModal);
 
   // Lock background scroll
   useEffect(() => {
@@ -19,15 +21,25 @@ function MainModal({ children }) {
     };
   }, [activeModal]);
 
-  if (!activeModal) return null; // ✅ don’t render container unless modal is open
+  if (!activeModal) return null;
 
   return (
     <div
       className={`${styles.MainModal} ${
-        isFullScreen ? styles.fullscreen : styles.centered
+        isDrawer ? styles.fullscreen : styles.centered
       }`}
+      onClick={onClose} // ✅ Close when clicking the overlay
     >
-      {children}
+      {/* This inner div wraps the content. 
+        e.stopPropagation() prevents the click from bubbling to the overlay 
+        so clicking the form doesn't close the modal.
+      */}
+      <div
+        className={isDrawer ? styles.drawerContent : styles.centerContent}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </div>
     </div>
   );
 }
