@@ -1,0 +1,114 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  height: 90vh;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+.closeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+}
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.inputGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+.inputGroup input,
+.multiSelect {
+  padding: 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.viewLink {
+  font-size: 0.85rem;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: underline;
+}
+.uploadBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px dashed #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #f8fafc;
+}
+.fileBadge {
+  font-size: 0.75rem;
+  background: #dcfce7;
+  color: #166534;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  background: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+}
+.saveBtn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

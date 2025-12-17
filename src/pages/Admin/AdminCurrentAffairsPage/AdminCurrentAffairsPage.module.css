@@ -1,90 +1,229 @@
 .pageWrap {
-  padding: 24px;
+  padding: 2rem;
   background-color: #f8fafc;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* --- HEADER --- */
+.loader {
+  padding: 2rem;
+  text-align: center;
+  color: #64748b;
+}
+
+/* Header */
+.toggleBar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 12px;
+  width: fit-content;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.toggleBtn.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* Categories */
+.columnsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .headerRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 }
 
 .headerRow h1 {
   font-size: 1.5rem;
-  font-weight: 700;
   color: #1e293b;
   margin: 0;
 }
 
-.headerActions {
-  display: flex;
-  gap: 12px;
-}
-
-/* --- BUTTONS --- */
 .addBtnMain {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: #2563eb;
+  gap: 0.5rem;
+  background: #2563eb;
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
   border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.addBtnMain:hover {
-  background-color: #1d4ed8;
-}
-
-.bulkDeleteBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #fee2e2;
-  color: #dc2626;
-  padding: 10px 16px;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
-  font-weight: 600;
-  border: none;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.bulkDeleteBtn:hover {
-  background-color: #fecaca;
-}
-
-/* --- COLUMNS WRAPPER --- */
-.columnsContainer {
-  flex: 1;
-  overflow-x: auto;
-  padding-bottom: 20px;
-}
-
-/* --- UTILS --- */
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  color: #64748b;
-  font-size: 1.1rem;
-}
-
-.emptyState {
+/* Form & Tabs */
+.formContainer {
   background: white;
-  border: 1px dashed #cbd5e1;
-  border-radius: 12px;
-  padding: 40px;
-  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.formContainer h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+/* Type Tabs */
+.typeTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.typeTab {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
   color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.typeTab:hover {
+  background: #f8fafc;
+  color: #334155;
+}
+
+.activeTab {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.activeTab:hover {
+  background: #1d4ed8;
+  color: white;
+}
+
+/* Form Fields */
+.formSection h3 {
+  font-size: 1.1rem;
+  color: #334155;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.inputGroup input,
+.inputGroup select {
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.multiSelect {
+  height: 120px;
+}
+
+.fileBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.fileBox input {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+/* Footer */
+.formFooter {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2563eb;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  background: #1d4ed8;
+}
+/* Ensure these exist in your CSS file */
+.multiSelect {
+  height: 100px;
+}
+
+.fileBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #cbd5e1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.fileBox input {
+  border: none;
+  padding: 0;
+  background: transparent;
 }

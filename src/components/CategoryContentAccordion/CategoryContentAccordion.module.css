@@ -1,0 +1,160 @@
+.wrapper {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Main Category Header --- */
+.categoryHeader {
+  background-color: #f1f5f9;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.2s;
+}
+.categoryHeader:hover {
+  background-color: #e2e8f0;
+}
+.headerTitle {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+/* --- Sub Category Box --- */
+.subBox {
+  border-top: 1px solid #f1f5f9;
+}
+.subHeader {
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: white;
+  color: #475569;
+}
+.subHeader:hover {
+  background: #f8fafc;
+}
+.subTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.countBadge {
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* --- Sub Body (Search + Table) --- */
+.subBody {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.searchWrap {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.search {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 300px;
+  font-size: 0.9rem;
+}
+.addBtn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* --- Table Grid --- */
+.tableContainer {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableHead {
+  display: grid;
+  /* Columns defined dynamically in JS via style */
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.85rem;
+  padding: 10px 16px;
+  align-items: center;
+  gap: 16px; /* Gap between columns */
+}
+
+.tableRow {
+  display: grid;
+  /* Columns defined dynamically */
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #334155;
+  gap: 16px; /* Gap matches header */
+  transition: background 0.1s;
+}
+.tableRow:last-child {
+  border-bottom: none;
+}
+.tableRow:hover {
+  background: #f8fafc;
+}
+
+/* --- Cells --- */
+.cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headCellAction {
+  text-align: center;
+}
+
+.rowActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.actionIcon {
+  color: #2563eb;
+  cursor: pointer;
+}
+.deleteIcon {
+  color: #ef4444;
+  cursor: pointer;
+}
+
+.noData {
+  padding: 2rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}

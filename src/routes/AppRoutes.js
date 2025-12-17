@@ -12,6 +12,11 @@ import AdminCurrentAffairsPage from "../pages/Admin/AdminCurrentAffairsPage/Admi
 import AdminEBooksPage from "../pages/Admin/AdminEBooksPage/AdminEBooksPage";
 import AdminPublicationPage from "../pages/Admin/AdminPublicationPage/AdminPublicationPage";
 import AdminPreviousPaperPage from "../pages/Admin/AdminPreviousPaperPage/AdminPreviousPaperPage";
+import AdminUpdateCoursesPage from "../pages/Admin/AdminUpdateCoursesPage/AdminUpdateCoursesPage";
+import AdminUpdateDailyQuizzesPage from "../pages/Admin/AdminUpdateDailyQuizzesPage/AdminUpdateDailyQuizzesPage";
+import AdminUpdateCurrentAffairsPage from "../pages/Admin/AdminUpdateCurrentAffairsPage/AdminUpdateCurrentAffairsPage";
+import AdminUpdateEBooksPage from "../pages/Admin/AdminUpdateEBooksPage/AdminUpdateEBooksPage";
+import AdminUpdatePublicationsPage from "../pages/Admin/AdminUpdatePublicationsPage/AdminUpdatePublicationsPage";
 
 // --- Placeholder Component ---
 const PlaceholderPage = ({ title }) => (
@@ -88,24 +93,24 @@ export default function AppRoutes() {
             {/* ======================================================== */}
             <Route
               path="update/online-courses"
-              element={<AdminOnlineCoursesPage />}
+              element={<AdminUpdateCoursesPage />}
             />
             <Route
               path="update/test-series"
-              element={<AdminTestSeriesPage />}
+              element={<AdminUpdateDailyQuizzesPage />}
             />
             <Route
               path="update/daily-quizzes"
-              element={<AdminDailyQuizPage />}
+              element={<AdminUpdateDailyQuizzesPage />}
             />
             <Route
               path="update/current-affairs"
-              element={<AdminCurrentAffairsPage />}
+              element={<AdminUpdateCurrentAffairsPage />}
             />
-            <Route path="update/e-books" element={<AdminEBooksPage />} />
+            <Route path="update/e-books" element={<AdminUpdateEBooksPage />} />
             <Route
               path="update/publications"
-              element={<AdminPublicationPage />}
+              element={<AdminUpdatePublicationsPage />}
             />
             <Route
               path="update/previous-papers"

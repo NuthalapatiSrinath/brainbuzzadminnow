@@ -1,90 +1,344 @@
 .pageWrap {
-  padding: 24px;
+  padding: 2rem;
   background-color: #f8fafc;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* --- HEADER --- */
-.headerRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.headerRow h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-}
-
-.headerActions {
-  display: flex;
-  gap: 12px;
-}
-
-/* --- BUTTONS --- */
-.addBtnMain {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #2563eb;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.addBtnMain:hover {
-  background-color: #1d4ed8;
-}
-
-.bulkDeleteBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #fee2e2;
-  color: #dc2626;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.bulkDeleteBtn:hover {
-  background-color: #fecaca;
-}
-
-/* --- COLUMNS WRAPPER --- */
-.columnsContainer {
-  flex: 1;
-  overflow-x: auto;
-  padding-bottom: 20px;
-}
-
-/* --- UTILS --- */
 .loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
+  padding: 2rem;
+  text-align: center;
   color: #64748b;
   font-size: 1.1rem;
 }
 
-.emptyState {
+/* Header & Toggle */
+.toggleBar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
   background: white;
-  border: 1px dashed #cbd5e1;
+  padding: 0.5rem;
   border-radius: 12px;
-  padding: 40px;
-  text-align: center;
+  width: fit-content;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: transparent;
   color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.toggleBtn.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.toggleBtn:hover:not(.active) {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* Categories View */
+.columnsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerRow h1 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.addBtnMain {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.addBtnMain:hover {
+  background: #1d4ed8;
+}
+
+/* Form Container */
+.formContainer {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.formContainer h2 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: #1e293b;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 1rem;
+}
+
+.formSection {
+  margin-bottom: 2.5rem;
+}
+
+.formSection h3 {
+  font-size: 1.1rem;
+  color: #334155;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Grid System */
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.req {
+  color: #ef4444;
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* NESTED CARDS: SECTION */
+.sectionCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.sectionCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f1f5f9;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sectionBody {
+  padding: 1.5rem;
+  background: white;
+}
+
+.deleteBtn {
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.deleteBtn:hover {
+  text-decoration: underline;
+}
+
+/* NESTED CARDS: QUESTION */
+.questionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.questionCard {
+  border: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.qHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.qNum {
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Options Builder */
+.optionsContainer {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+}
+
+.optionRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.optionRow input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.optionRow input[type="text"] {
+  flex: 1;
+}
+
+.addOptBtn {
+  font-size: 0.85rem;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.addQBtn {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px dashed #cbd5e1;
+  background: #f8fafc;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.addQBtn:hover {
+  border-color: #94a3b8;
+  color: #475569;
+}
+
+/* Footer */
+.formFooter {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2563eb;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  background: #1d4ed8;
+}
+/* ... (Existing CSS from previous turn) ... */
+
+.multiSelect {
+  height: 100px; /* Taller box for multiple items */
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.readOnly {
+  background-color: #e2e8f0;
+  cursor: not-allowed;
+  color: #475569;
+  font-weight: 600;
+}
+
+/* Ensure AdminEditor fits well in question card */
+.questionCard .editorWrapper {
+  min-height: 100px;
 }

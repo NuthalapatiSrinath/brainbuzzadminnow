@@ -1,12 +1,27 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../redux/slices/modalSlice";
-import { Plus, Trash2, Layers, BookOpen, X, Save } from "lucide-react";
+import {
+  Plus,
+  Layers,
+  BookOpen,
+  Save,
+  Upload,
+  Trash2,
+  FileText,
+  User,
+  Video,
+} from "lucide-react";
+
+// --- API Services ---
 import * as categoryService from "../../../api/services/adminCategoryService";
 import * as subCategoryService from "../../../api/services/adminSubCategoryService";
 import * as courseService from "../../../api/services/adminCourseService";
+import { getAllLanguages, getAllValidities } from "../../../api/apiRoutes";
 
+// --- Components ---
 import CategoryColumn from "../../../components/AdminComponents/CategoryColumn/CategoryColumn";
+import AdminEditor from "../../../components/AdminComponents/AdminEditor/AdminEditor";
 import styles from "./AdminOnlineCoursesPage.module.css";
 
 const AdminOnlineCoursesPage = () => {
@@ -14,70 +29,81 @@ const AdminOnlineCoursesPage = () => {
 
   // --- UI STATE ---
   const [activeView, setActiveView] = useState("CATEGORIES");
-
-  // --- CATEGORY DATA ---
-  const [columns, setColumns] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState(new Set());
+
+  // --- DATA LISTS ---
+  const [columns, setColumns] = useState([]);
+  const [flatCategories, setFlatCategories] = useState([]);
+  const [flatSubCategories, setFlatSubCategories] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const [validities, setValidities] = useState([]);
+
   const CURRENT_SECTION = "ONLINE_COURSE";
 
-  // --- COURSE FORM STATE ---
-  const initialCourseState = {
-    name: "",
+  // --- FORM STATE ---
+  const initialFormState = {
     contentType: "ONLINE_COURSE",
-    courseType: "Recorded",
+    name: "",
     startDate: "",
+
+    // IDs (Arrays)
+    categoryIds: [],
+    subCategoryIds: [],
+    languageIds: [],
+    validityIds: [],
+
     originalPrice: "",
     discountPrice: "",
-    discountPercent: "",
     pricingNote: "",
-    // Initialize as empty strings for Select inputs (React requirement)
-    validityIds: "",
-    languageIds: "",
-    categoryIds: "",
-    subCategoryIds: "",
+
     shortDescription: "",
     detailedDescription: "",
     isActive: true,
   };
 
-  const [courseData, setCourseData] = useState(initialCourseState);
+  const [courseData, setCourseData] = useState(initialFormState);
   const [thumbnail, setThumbnail] = useState(null);
 
-  // Dynamic Arrays
+  // --- NESTED DATA ---
   const [classes, setClasses] = useState([]);
   const [tutors, setTutors] = useState([]);
   const [studyMaterials, setStudyMaterials] = useState([]);
 
   // --- FETCH DATA ---
-  const processDataToColumns = (categories, subcategories) => {
-    const groups = {};
-    categories.forEach((cat) => {
-      groups[cat._id] = {
-        id: cat._id,
-        name: cat.name,
-        ...cat,
-        subcategories: [],
-      };
-    });
-    subcategories.forEach((sub) => {
-      const parentId = sub.category?._id || sub.category;
-      if (groups[parentId]) {
-        groups[parentId].subcategories.push({ ...sub, id: sub._id });
-      }
-    });
-    return Object.values(groups);
-  };
-
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [catsRes, subsRes] = await Promise.all([
+      const [catsRes, subsRes, langRes, valRes] = await Promise.all([
         categoryService.getAllCategories(CURRENT_SECTION),
         subCategoryService.getAllSubCategories(null, CURRENT_SECTION),
+        getAllLanguages(),
+        getAllValidities(),
       ]);
-      const cols = processDataToColumns(catsRes.data || [], subsRes.data || []);
-      setColumns(cols);
+
+      const cats = catsRes.data || [];
+      const subs = subsRes.data || [];
+
+      setFlatCategories(cats);
+      setFlatSubCategories(subs);
+      setLanguages(langRes.data?.data || langRes.data || []);
+      setValidities(valRes.data?.data || valRes.data || []);
+
+      const groups = {};
+      cats.forEach((cat) => {
+        groups[cat._id] = {
+          id: cat._id,
+          name: cat.name,
+          ...cat,
+          subcategories: [],
+        };
+      });
+      subs.forEach((sub) => {
+        const parentId = sub.category?._id || sub.category;
+        if (groups[parentId]) {
+          groups[parentId].subcategories.push({ ...sub, id: sub._id });
+        }
+      });
+      setColumns(Object.values(groups));
     } catch (err) {
       console.error("Failed to load data", err);
     } finally {
@@ -89,8 +115,7 @@ const AdminOnlineCoursesPage = () => {
     fetchData();
   }, [fetchData]);
 
-  // --- HANDLERS ---
-  // (Keep your existing Category Handlers: handleAddCategory, handleEditCategory etc...)
+  // --- HANDLERS (Structure) ---
   const handleAddCategory = () =>
     dispatch(
       openModal({
@@ -157,18 +182,29 @@ const AdminOnlineCoursesPage = () => {
       })
     );
 
-  const handleBulkDelete = async () => {
-    /* ... */
-  };
-
-  // --- FORM HANDLERS ---
+  // --- FORM INPUTS ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCourseData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Classes
-  const addClassRow = () =>
+  const handleEditorChange = (html) => {
+    setCourseData((prev) => ({ ...prev, detailedDescription: html }));
+  };
+
+  const handleMultiSelectChange = (e) => {
+    const { name, options } = e.target;
+    const selectedValues = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selectedValues.push(options[i].value);
+      }
+    }
+    setCourseData((prev) => ({ ...prev, [name]: selectedValues }));
+  };
+
+  // --- NESTED BUILDERS ---
+  const addClass = () =>
     setClasses([
       ...classes,
       {
@@ -180,131 +216,145 @@ const AdminOnlineCoursesPage = () => {
         videoFile: null,
       },
     ]);
-  const updateClassRow = (index, field, value) => {
+  const updateClass = (index, field, value) => {
     const n = [...classes];
     n[index][field] = value;
     setClasses(n);
   };
-  const removeClassRow = (index) =>
+  const removeClass = (index) =>
     setClasses(classes.filter((_, i) => i !== index));
 
-  // Tutors
-  const addTutorRow = () =>
+  const addTutor = () =>
     setTutors([
       ...tutors,
       { name: "", qualification: "", subject: "", photoFile: null },
     ]);
-  const updateTutorRow = (index, field, value) => {
+  const updateTutor = (index, field, value) => {
     const n = [...tutors];
     n[index][field] = value;
     setTutors(n);
   };
-  const removeTutorRow = (index) =>
+  const removeTutor = (index) =>
     setTutors(tutors.filter((_, i) => i !== index));
 
-  // Materials
-  const addStudyMaterialRow = () =>
+  const addMaterial = () =>
     setStudyMaterials([
       ...studyMaterials,
       { title: "", description: "", file: null },
     ]);
-  const updateStudyMaterialRow = (index, field, value) => {
+  const updateMaterial = (index, field, value) => {
     const n = [...studyMaterials];
     n[index][field] = value;
     setStudyMaterials(n);
   };
-  const removeStudyMaterialRow = (index) =>
+  const removeMaterial = (index) =>
     setStudyMaterials(studyMaterials.filter((_, i) => i !== index));
 
+  // --- VALIDATION ---
+  const validateForm = () => {
+    const errors = [];
+    if (!courseData.name) errors.push("Course Name is required");
+    if (!courseData.startDate) errors.push("Start Date is required");
+    if (courseData.categoryIds.length === 0)
+      errors.push("At least one Category is required");
+    if (courseData.languageIds.length === 0)
+      errors.push("At least one Language is required");
+    if (courseData.validityIds.length === 0)
+      errors.push("At least one Validity is required");
+    if (!courseData.originalPrice) errors.push("Original Price is required");
+    return errors;
+  };
+
   // --- SUBMIT ---
-  const handleSubmitCourse = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+    if (errors.length > 0) {
+      alert("Missing Required Fields:\n- " + errors.join("\n- "));
+      return;
+    }
+
     setLoading(true);
 
     try {
       const formData = new FormData();
 
-      // ✅ CRITICAL FIX: Ensure all ID fields are Arrays (even if 1 selected)
-      // This matches the Postman payload structure exactly.
-      const coursePayload = {
-        ...courseData,
-        originalPrice: Number(courseData.originalPrice) || 0,
+      // 1. JSON PAYLOAD
+      const payload = {
+        contentType: "ONLINE_COURSE",
+        name: courseData.name,
+        startDate: courseData.startDate,
+        categoryIds: courseData.categoryIds,
+        subCategoryIds: courseData.subCategoryIds,
+        languageIds: courseData.languageIds,
+        validityIds: courseData.validityIds,
+        originalPrice: Number(courseData.originalPrice),
         discountPrice: Number(courseData.discountPrice) || 0,
-        discountPercent: Number(courseData.discountPercent) || 0,
+        pricingNote: courseData.pricingNote,
+        shortDescription: courseData.shortDescription,
+        detailedDescription: courseData.detailedDescription,
 
-        // Convert single strings to Arrays
-        categoryIds: courseData.categoryIds ? [courseData.categoryIds] : [],
-        subCategoryIds: courseData.subCategoryIds
-          ? [courseData.subCategoryIds]
-          : [],
-        languageIds: courseData.languageIds ? [courseData.languageIds] : [],
-        validityIds: courseData.validityIds ? [courseData.validityIds] : [],
-
-        // Clean arrays (backend expects these structures)
         classes: classes.map((c) => ({
           title: c.title,
           topic: c.topic,
           order: Number(c.order),
+        })),
+        studyMaterials: studyMaterials.map((s) => ({
+          title: s.title,
+          description: s.description,
         })),
         tutors: tutors.map((t) => ({
           name: t.name,
           qualification: t.qualification,
           subject: t.subject,
         })),
-        studyMaterials: studyMaterials.map((s) => ({
-          title: s.title,
-          description: s.description,
-        })),
+        isActive: courseData.isActive,
       };
 
-      // Append JSON string
-      formData.append("course", JSON.stringify(coursePayload));
+      console.log("Submitting Payload:", payload);
+      formData.append("course", JSON.stringify(payload));
 
-      // Append Files
+      // 2. FILES
       if (thumbnail) formData.append("thumbnail", thumbnail);
 
       tutors.forEach((t) => {
         if (t.photoFile) formData.append("tutorImages", t.photoFile);
       });
-
       classes.forEach((c) => {
         if (c.thumbnailFile)
           formData.append("classThumbnails", c.thumbnailFile);
         if (c.lectureFile) formData.append("classLecturePics", c.lectureFile);
         if (c.videoFile) formData.append("classVideos", c.videoFile);
       });
-
       studyMaterials.forEach((s) => {
         if (s.file) formData.append("studyMaterialFiles", s.file);
       });
 
-      // Call API
       await courseService.createCourse(formData);
-      alert("Course Created Successfully!");
+      alert("Online Course Created Successfully!");
 
       // Reset
-      setCourseData(initialCourseState);
+      setCourseData(initialFormState);
       setThumbnail(null);
       setClasses([]);
       setTutors([]);
       setStudyMaterials([]);
       setActiveView("CATEGORIES");
     } catch (error) {
-      console.error(error);
-      alert("Failed to create course. Please check fields.");
+      console.error("Submission Error:", error);
+      alert(`Failed: ${error.response?.data?.message || "Check console"}`);
     } finally {
       setLoading(false);
     }
   };
-
-  // ... (Rest of JSX Render is same as previous, using handleBulkDelete etc.)
-  // I will provide the Render part below for completeness
 
   if (loading && activeView === "CATEGORIES" && columns.length === 0)
     return <div className={styles.loader}>Loading...</div>;
 
   return (
     <div className={styles.pageWrap}>
+      {/* Top Bar */}
       <div className={styles.toggleBar}>
         <button
           className={`${styles.toggleBtn} ${
@@ -316,23 +366,22 @@ const AdminOnlineCoursesPage = () => {
         </button>
         <button
           className={`${styles.toggleBtn} ${
-            activeView === "ADD_COURSE" ? styles.active : ""
+            activeView === "ADD" ? styles.active : ""
           }`}
-          onClick={() => setActiveView("ADD_COURSE")}
+          onClick={() => setActiveView("ADD")}
         >
-          <BookOpen size={18} /> Add New Course
+          <BookOpen size={18} /> Add Course
         </button>
       </div>
 
+      {/* Structure View */}
       {activeView === "CATEGORIES" && (
         <div className={styles.columnsContainer}>
           <div className={styles.headerRow}>
             <h1>Online Courses: Structure</h1>
-            <div className={styles.headerActions}>
-              <button className={styles.addBtnMain} onClick={handleAddCategory}>
-                <Plus size={18} /> Add Category
-              </button>
-            </div>
+            <button className={styles.addBtnMain} onClick={handleAddCategory}>
+              <Plus size={18} /> Add Category
+            </button>
           </div>
           <CategoryColumn
             categories={columns}
@@ -345,52 +394,31 @@ const AdminOnlineCoursesPage = () => {
         </div>
       )}
 
-      {activeView === "ADD_COURSE" && (
+      {/* Add Form */}
+      {activeView === "ADD" && (
         <div className={styles.formContainer}>
-          <h2>Create New Online Course</h2>
-          <form onSubmit={handleSubmitCourse} className={styles.courseForm}>
-            {/* 1. Basic */}
+          <h2>Create Online Course</h2>
+          <form onSubmit={handleSubmit} className={styles.courseForm}>
+            {/* 1. Basic Details */}
             <div className={styles.formSection}>
-              <h3>Basic Information</h3>
+              <h3>Basic Details</h3>
               <div className={styles.gridRow}>
                 <div className={styles.inputGroup}>
-                  <label>Course Name</label>
+                  <label>
+                    Course Name <span className={styles.req}>*</span>
+                  </label>
                   <input
                     name="name"
                     value={courseData.name}
                     onChange={handleInputChange}
                     required
-                    placeholder="e.g. UPSC Prelims 2025"
+                    placeholder="e.g. UPSC Prelims Foundation Batch"
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Category</label>
-                  <select
-                    name="categoryIds"
-                    value={courseData.categoryIds}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="">Select Category</option>
-                    {columns.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className={styles.gridRow}>
-                <div className={styles.inputGroup}>
-                  <label>Thumbnail</label>
-                  <input
-                    type="file"
-                    onChange={(e) => setThumbnail(e.target.files[0])}
-                    accept="image/*"
-                  />
-                </div>
-                <div className={styles.inputGroup}>
-                  <label>Start Date</label>
+                  <label>
+                    Start Date <span className={styles.req}>*</span>
+                  </label>
                   <input
                     type="date"
                     name="startDate"
@@ -399,14 +427,113 @@ const AdminOnlineCoursesPage = () => {
                   />
                 </div>
               </div>
+
+              {/* Multi-Selects */}
+              <div className={styles.gridRow}>
+                <div className={styles.inputGroup}>
+                  <label>
+                    Categories (Hold Ctrl/Cmd){" "}
+                    <span className={styles.req}>*</span>
+                  </label>
+                  <select
+                    multiple
+                    name="categoryIds"
+                    value={courseData.categoryIds}
+                    onChange={handleMultiSelectChange}
+                    className={styles.multiSelect}
+                  >
+                    {flatCategories.map((c) => (
+                      <option key={c._id} value={c._id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.inputGroup}>
+                  <label>Sub Categories</label>
+                  <select
+                    multiple
+                    name="subCategoryIds"
+                    value={courseData.subCategoryIds}
+                    onChange={handleMultiSelectChange}
+                    className={styles.multiSelect}
+                  >
+                    {flatSubCategories
+                      .filter((s) =>
+                        courseData.categoryIds.includes(
+                          s.category?._id || s.category
+                        )
+                      )
+                      .map((s) => (
+                        <option key={s._id} value={s._id}>
+                          {s.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className={styles.gridRow}>
+                <div className={styles.inputGroup}>
+                  <label>
+                    Languages <span className={styles.req}>*</span>
+                  </label>
+                  <select
+                    multiple
+                    name="languageIds"
+                    value={courseData.languageIds}
+                    onChange={handleMultiSelectChange}
+                    className={styles.multiSelect}
+                  >
+                    {languages.map((l) => (
+                      <option key={l._id} value={l._id}>
+                        {l.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.inputGroup}>
+                  <label>
+                    Validities <span className={styles.req}>*</span>
+                  </label>
+                  <select
+                    multiple
+                    name="validityIds"
+                    value={courseData.validityIds}
+                    onChange={handleMultiSelectChange}
+                    className={styles.multiSelect}
+                  >
+                    {validities.map((v) => (
+                      <option key={v._id} value={v._id}>
+                        {v.label} ({v.durationInDays} days)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* THUMBNAIL (Images Only) */}
+              <div className={styles.inputGroup}>
+                <label>Course Thumbnail (Image)</label>
+                <div className={styles.fileBox}>
+                  <Upload size={16} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setThumbnail(e.target.files[0])}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* 2. Pricing */}
             <div className={styles.formSection}>
-              <h3>Pricing</h3>
+              <h3>Pricing & Description</h3>
               <div className={styles.gridRow}>
                 <div className={styles.inputGroup}>
-                  <label>Original Price</label>
+                  <label>
+                    Original Price <span className={styles.req}>*</span>
+                  </label>
                   <input
                     type="number"
                     name="originalPrice"
@@ -425,14 +552,31 @@ const AdminOnlineCoursesPage = () => {
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Note</label>
+                  <label>Pricing Note</label>
                   <input
-                    type="text"
                     name="pricingNote"
                     value={courseData.pricingNote}
                     onChange={handleInputChange}
                   />
                 </div>
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label>Short Description</label>
+                <textarea
+                  name="shortDescription"
+                  rows={2}
+                  value={courseData.shortDescription}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className={styles.inputGroup} style={{ marginTop: "1rem" }}>
+                <label>Detailed Description</label>
+                <AdminEditor
+                  value={courseData.detailedDescription}
+                  onChange={handleEditorChange}
+                  placeholder="Enter course details..."
+                />
               </div>
             </div>
 
@@ -442,10 +586,10 @@ const AdminOnlineCoursesPage = () => {
                 <h3>Tutors</h3>
                 <button
                   type="button"
-                  onClick={addTutorRow}
-                  className={styles.smallBtn}
+                  onClick={addTutor}
+                  className={styles.addBtnMain}
                 >
-                  + Add
+                  <Plus size={16} /> Add Tutor
                 </button>
               </div>
               {tutors.map((t, i) => (
@@ -453,23 +597,36 @@ const AdminOnlineCoursesPage = () => {
                   <input
                     placeholder="Name"
                     value={t.name}
-                    onChange={(e) => updateTutorRow(i, "name", e.target.value)}
+                    onChange={(e) => updateTutor(i, "name", e.target.value)}
+                  />
+                  <input
+                    placeholder="Qualification"
+                    value={t.qualification}
+                    onChange={(e) =>
+                      updateTutor(i, "qualification", e.target.value)
+                    }
                   />
                   <input
                     placeholder="Subject"
                     value={t.subject}
-                    onChange={(e) =>
-                      updateTutorRow(i, "subject", e.target.value)
-                    }
+                    onChange={(e) => updateTutor(i, "subject", e.target.value)}
                   />
-                  <input
-                    type="file"
-                    onChange={(e) =>
-                      updateTutorRow(i, "photoFile", e.target.files[0])
-                    }
-                  />
-                  <button type="button" onClick={() => removeTutorRow(i)}>
-                    <X size={14} />
+                  <div className={styles.fileBoxSmall}>
+                    <User size={14} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        updateTutor(i, "photoFile", e.target.files[0])
+                      }
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeTutor(i)}
+                    className={styles.delBtn}
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
               ))}
@@ -478,77 +635,122 @@ const AdminOnlineCoursesPage = () => {
             {/* 4. Classes */}
             <div className={styles.formSection}>
               <div className={styles.sectionHeader}>
-                <h3>Classes</h3>
+                <h3>Classes (Curriculum)</h3>
                 <button
                   type="button"
-                  onClick={addClassRow}
-                  className={styles.smallBtn}
+                  onClick={addClass}
+                  className={styles.addBtnMain}
                 >
-                  + Add
+                  <Plus size={16} /> Add Class
                 </button>
               </div>
               {classes.map((c, i) => (
                 <div key={i} className={styles.classCard}>
                   <div className={styles.gridRow}>
                     <input
-                      placeholder="Title"
+                      placeholder="Class Title"
                       value={c.title}
-                      onChange={(e) =>
-                        updateClassRow(i, "title", e.target.value)
-                      }
+                      onChange={(e) => updateClass(i, "title", e.target.value)}
                     />
                     <input
                       placeholder="Topic"
                       value={c.topic}
-                      onChange={(e) =>
-                        updateClassRow(i, "topic", e.target.value)
-                      }
+                      onChange={(e) => updateClass(i, "topic", e.target.value)}
                     />
                     <input
                       type="number"
                       placeholder="Order"
                       value={c.order}
-                      onChange={(e) =>
-                        updateClassRow(i, "order", e.target.value)
-                      }
+                      onChange={(e) => updateClass(i, "order", e.target.value)}
                       style={{ maxWidth: "80px" }}
                     />
                   </div>
-                  <div className={styles.fileRow}>
+                  <div className={styles.filesRow}>
                     <label>
-                      Thumb{" "}
+                      Thumbnail (Img):
                       <input
                         type="file"
+                        accept="image/*"
                         onChange={(e) =>
-                          updateClassRow(i, "thumbnailFile", e.target.files[0])
+                          updateClass(i, "thumbnailFile", e.target.files[0])
                         }
                       />
                     </label>
                     <label>
-                      Lecture{" "}
+                      Lecture (Img):
                       <input
                         type="file"
+                        accept="image/*"
                         onChange={(e) =>
-                          updateClassRow(i, "lectureFile", e.target.files[0])
+                          updateClass(i, "lectureFile", e.target.files[0])
                         }
                       />
                     </label>
                     <label>
-                      Video{" "}
+                      Video (Mp4/Mov):
                       <input
                         type="file"
+                        accept="video/*"
                         onChange={(e) =>
-                          updateClassRow(i, "videoFile", e.target.files[0])
+                          updateClass(i, "videoFile", e.target.files[0])
                         }
                       />
                     </label>
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeClassRow(i)}
-                    className={styles.removeBtn}
+                    onClick={() => removeClass(i)}
+                    className={styles.delBtn}
+                    style={{ marginTop: "0.5rem" }}
                   >
-                    Remove
+                    Remove Class
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* 5. Study Materials (PDF/Docs) */}
+            <div className={styles.formSection}>
+              <div className={styles.sectionHeader}>
+                <h3>Study Materials</h3>
+                <button
+                  type="button"
+                  onClick={addMaterial}
+                  className={styles.addBtnMain}
+                >
+                  <Plus size={16} /> Add Material
+                </button>
+              </div>
+              {studyMaterials.map((s, i) => (
+                <div key={i} className={styles.dynamicRow}>
+                  <input
+                    placeholder="Title (e.g. PDF Notes)"
+                    value={s.title}
+                    onChange={(e) => updateMaterial(i, "title", e.target.value)}
+                  />
+                  <input
+                    placeholder="Description"
+                    value={s.description}
+                    onChange={(e) =>
+                      updateMaterial(i, "description", e.target.value)
+                    }
+                  />
+                  <div className={styles.fileBoxSmall}>
+                    <FileText size={14} />
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) =>
+                        updateMaterial(i, "file", e.target.files[0])
+                      }
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeMaterial(i)}
+                    className={styles.delBtn}
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
               ))}
